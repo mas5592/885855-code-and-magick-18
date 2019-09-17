@@ -1,4 +1,21 @@
 'use strict';
+// Параметры мага и фаербола
+window.fireballSize = 22;
+window.wizardSpeed = 3;
+window.wizardWidth = 70;
+
+window.getFireballSpeed = function (left) {
+  return left ? 5 : 2;
+};
+window.getWizardHeight = function () {
+  return 1.337 * window.wizardWidth;
+};
+window.getWizardX = function (width) {
+  return (width * 0.5) - (window.wizardWidth / 2);
+};
+window.getWizardY = function (height) {
+  return height / 3 - window.getWizardHeight();
+};
 // Параметры облака
 var CLOUD_X = 100;
 var CLOUD_Y = 10;
@@ -13,7 +30,6 @@ var TOP_GAP = 250;
 var LEFT_GAP = 40;
 // Шрифт и шкалы
 var FONT = '16px PT Mono';
-var FONT_HEIGHT = 18;
 var FONT_COLOR = '#000';
 var BAR_WIDTH = 40;
 var BAR_HEIGHT = 150;
@@ -23,16 +39,8 @@ var renderCloud = function (ctx, x, y, color) {
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 // Нахождение максимального элемента в массиве
-var getMaxElement = function (arr) {
-  var maxElement = arr[0] || 0;
-
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i] > maxElement) {
-      maxElement = arr[i];
-    }
-  }
-
-  return maxElement;
+var getMaxElement = function (numArray) {
+  return Math.max.apply(null, numArray);
 };
 // Расположение элементов по осям
 var getPositionX = function (serialNumber) {
@@ -41,14 +49,6 @@ var getPositionX = function (serialNumber) {
 
 var getPositionY = function (numberOfIndents) {
   return TOP_GAP - GAP * numberOfIndents;
-};
-
-var getPositionTextX = function () {
-  return CLOUD_X + GAP * 2;
-};
-
-var getPositionTextY = function () {
-  return CLOUD_Y * 4;
 };
 // Отрисовка окна с гистограммой и результатами победителей
 window.renderStatistics = function (ctx, players, times) {
@@ -62,10 +62,10 @@ window.renderStatistics = function (ctx, players, times) {
   // Параметры текста и столбцов
   for (var i = 0; i < players.length; i++) {
     ctx.font = FONT;
-    ctx.fillText('Ура вы победили!', getPositionTextX(), getPositionTextY());
-    ctx.fillText('Список результатов:', getPositionTextX(), getPositionTextY() + FONT_HEIGHT);
+    ctx.fillText('Ура вы победили!', 110, 40);
+    ctx.fillText('Список результатов:', 110, 60);
     ctx.fillText(Math.round(times[i]), getPositionX(i), getPositionY(2) + (-BAR_HEIGHT * times[i]) / maxTime);
-    ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random().toFixed(1) + ')';// Цвет других игроков
+    ctx.fillStyle = 'rgba(' + 0 + ',' + 0 + ',' + 255 + ',' + (Math.random()) + ')';// Цвет других игроков
     if (players[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';// Цвет основного игрока
     }
